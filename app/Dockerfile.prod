@@ -1,0 +1,27 @@
+FROM bitnami/laravel:10 AS builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN composer install --optimize-autoloader --no-dev
+
+RUN npm install && npm run build
+
+FROM php:8.2.10-fpm-alpine AS runner
+
+WORKDIR /var/www
+
+RUN rm -rf /var/www/html
+
+RUN docker-php-ext-install pdo_mysql
+
+COPY --from=builder /app .
+
+RUN ln -s public html
+
+RUN chown -R www-data:www-data /var/www
+
+EXPOSE 9000
+
+CMD [ "php-fpm" ]
