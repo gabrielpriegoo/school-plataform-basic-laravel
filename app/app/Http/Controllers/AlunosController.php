@@ -20,15 +20,24 @@ class AlunosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'between:2,100'],
+            'born' => ['required', 'date'],
+            'gender' => ['required', 'size:1'],
+            'turma_id' => ['required', 'int', 'exists:turmas,id']
+        ]);
+
+        $AlunosCreate = $request->all();
+
+        return response(Aluno::create($AlunosCreate), 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Aluno $alunoId)
     {
-        //
+        return $alunoId;
     }
 
     /**

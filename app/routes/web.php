@@ -2,6 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get("/teste", function () {
-    return response()->json(["message" => "Hello World!"]);
+Route::get('/', function () {
+    return view('welcome');
 });
