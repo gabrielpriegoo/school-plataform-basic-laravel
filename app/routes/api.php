@@ -11,5 +11,5 @@ Route::get('/user', function (Request $request) {
 Route::get('/alunos', [AlunosController::class, 'index'])->name('alunos.index');
 Route::get('/alunos/{alunoId}', [AlunosController::class, 'show'])->name('alunos.show');
 Route::post('/alunos', [AlunosController::class, 'store'])->name('alunos.store');
-Route::put('/alunos/{id}', [])->name('alunos.update');
-Route::delete('/alunos/{id}', [])->name('alunos.destroy');
+Route::put('/alunos/{alunoId}', [AlunosController::class, 'update'])->name('alunos.update');
+Route::delete('/alunos/{alunoId}', [AlunosController::class, 'destroy'])->name('alunos.destroy');

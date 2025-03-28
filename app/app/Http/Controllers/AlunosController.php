@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlunoRequest;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
 
@@ -18,15 +19,8 @@ class AlunosController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AlunoRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'between:2,100'],
-            'born' => ['required', 'date'],
-            'gender' => ['required', 'size:1'],
-            'turma_id' => ['required', 'int', 'exists:turmas,id']
-        ]);
-
         $AlunosCreate = $request->all();
 
         return response(Aluno::create($AlunosCreate), 201);
@@ -43,16 +37,22 @@ class AlunosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AlunoRequest $request, Aluno $alunoId)
     {
-        //
+        $alunoId->update($request->all());
+
+        return  $alunoId;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Aluno $alunoId)
     {
-        //
+        $alunoId->delete();
+
+        return response()->json([
+            'message' => 'Aluno deletado com sucesso!',
+        ]);
     }
 }
